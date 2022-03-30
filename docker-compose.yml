@@ -1,0 +1,22 @@
+version: "2.1"
+services:
+  app:
+    #image: lscr.io/linuxserver/APP_NAME
+    #container_name: APP_NAME
+    #restart: unless-stopped
+    #network_mode: portainer_bridge
+    #labels:
+    #  - "com.centurylinklabs.watchtower.enable=true"
+    #healthcheck:
+    #  disable: true
+    environment:
+    #  - PUID=1030
+    #  - PGID=65540
+    #  - TZ=America/New_York
+      - DISCORD_TOKEN=your_token_here
+    volumes:
+      - /your/path/to/data:/data
+    #  - /volume1/docker/data/APP_NAME:/config
+    #  - /etc/localtime:/etc/localtime:ro
+    #ports:
+    #  - "EXTERNAL:INTERNAL"
