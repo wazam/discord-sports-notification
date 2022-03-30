@@ -13,7 +13,14 @@ services:
     #  - PUID=1030
     #  - PGID=65540
     #  - TZ=America/New_York
-      - DISCORD_TOKEN=your_token_here
+      - DISCORD_TOKEN=your_bot_token_here
+      - DISCORD_CHANNEL=your_channel_id_here
+      - NBA_pt_differential=5
+      - NBA_mins_left=4
+      - NBA_period=4
+      - MLB_THRESHOLD_INNING=9
+      - MLB_THRESHOLD_SCORE=1
+      - MLB_THRESHOLD_MEN_ON_BASE=RISP
     volumes:
       - /your/path/to/data:/data
     #  - /volume1/docker/data/APP_NAME:/config
