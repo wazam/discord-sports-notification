@@ -4,9 +4,9 @@ from os import getenv
 from requests import get
 
 CONFIG = {
-    'pt_differential': 40,
-    'mins_left': 1000,
-    'period': 1
+    'pt_differential': 100,
+    'mins_left': 4,
+    'period': 4
 }
 
 notified_games = {}
