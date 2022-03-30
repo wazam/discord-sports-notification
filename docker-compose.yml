@@ -1,9 +1,9 @@
+---
 version: "2.1"
 services:
   app:
-    #image: lscr.io/linuxserver/APP_NAME
-    #container_name: APP_NAME
-    #restart: unless-stopped
+    #image:
+    container_name: sports-now
     environment:
       - DISCORD_TOKEN=your_bot_token_here
       - DISCORD_CHANNEL=your_channel_id_here
@@ -13,17 +13,9 @@ services:
       - MLB_THRESHOLD_SCORE_DIFFERENTIAL=1
       - MLB_THRESHOLD_MEN_ON_BASE="RISP" # "RISP" for 2nd/3rd, "Men_On" for 1st, "Empty" for none
       - MLB_THRESHOLD_INNING=9
-    #  - PUID=1030
-    #  - PGID=65540
-    #  - TZ=America/New_York
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
     volumes:
-      - /your/path/to/data:/data
-    #  - /volume1/docker/data/APP_NAME:/config
-    #  - /etc/localtime:/etc/localtime:ro
-    #ports:
-    #  - "EXTERNAL:INTERNAL"
-    #network_mode: portainer_bridge
-    #labels:
-    #  - "com.centurylinklabs.watchtower.enable=true"
-    #healthcheck:
-    #  disable: true
+      - /path/to/config:/config
+    restart: unless-stopped
