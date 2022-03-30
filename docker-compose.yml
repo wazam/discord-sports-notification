@@ -2,7 +2,7 @@
 version: "2.1"
 services:
   app:
-    #image:
+    #build: or image:
     container_name: sports-now
     environment:
       - DISCORD_TOKEN=your_bot_token_here
@@ -13,9 +13,8 @@ services:
       - MLB_THRESHOLD_SCORE_DIFFERENTIAL=1
       - MLB_THRESHOLD_MEN_ON_BASE="RISP" # "RISP" for 2nd/3rd, "Men_On" for 1st, "Empty" for none
       - MLB_THRESHOLD_INNING=9
-      - PUID=1000
-      - PGID=1000
       - TZ=America/New_York
     volumes:
       - /path/to/config:/config
+      - /path/to/data:/data
     restart: unless-stopped
