@@ -4,7 +4,7 @@ from os import getenv
 from requests import get
 
 CONFIG = {
-    'pt_differential': 100,
+    'pt_differential': 5,
     'mins_left': 4,
     'period': 4
 }
