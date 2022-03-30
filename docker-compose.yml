@@ -4,26 +4,26 @@ services:
     #image: lscr.io/linuxserver/APP_NAME
     #container_name: APP_NAME
     #restart: unless-stopped
-    #network_mode: portainer_bridge
-    #labels:
-    #  - "com.centurylinklabs.watchtower.enable=true"
-    #healthcheck:
-    #  disable: true
     environment:
+      - DISCORD_TOKEN=your_bot_token_here
+      - DISCORD_CHANNEL=your_channel_id_here
+      - NBA_THRESHOLD_PT_DIFFERENTIAL=5
+      - NBA_THRESHOLD_MINS_LEFT=4
+      - NBA_THRESHOLD_PERIOD=4
+      - MLB_THRESHOLD_SCORE_DIFFERENTIAL=1
+      - MLB_THRESHOLD_MEN_ON_BASE="RISP" # "RISP" for 2nd/3rd, "Men_On" for 1st, "Empty" for none
+      - MLB_THRESHOLD_INNING=9
     #  - PUID=1030
     #  - PGID=65540
     #  - TZ=America/New_York
-      - DISCORD_TOKEN=your_bot_token_here
-      - DISCORD_CHANNEL=your_channel_id_here
-      - NBA_pt_differential=5
-      - NBA_mins_left=4
-      - NBA_period=4
-      - MLB_THRESHOLD_INNING=9
-      - MLB_THRESHOLD_SCORE=1
-      - MLB_THRESHOLD_MEN_ON_BASE=RISP
     volumes:
       - /your/path/to/data:/data
     #  - /volume1/docker/data/APP_NAME:/config
     #  - /etc/localtime:/etc/localtime:ro
     #ports:
     #  - "EXTERNAL:INTERNAL"
+    #network_mode: portainer_bridge
+    #labels:
+    #  - "com.centurylinklabs.watchtower.enable=true"
+    #healthcheck:
+    #  disable: true
