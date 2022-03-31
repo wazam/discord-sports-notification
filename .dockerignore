@@ -1,5 +1,6 @@
 .dockerignore
 .env
+.env.example
 .gitignore
 *.code-workspace
 *.yml
