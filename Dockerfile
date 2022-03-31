@@ -13,11 +13,11 @@ ENV DISCORD_TOKEN= \
     TZ=America/New_York
 
 RUN pip install pipenv \
-    pipenv install
+    pipenv install \
+    mkdir /data
 
 CMD pipenv run python src/main.py
 
-VOLUME /config
 VOLUME /data
 
 ENTRYPOINT [ "/sportsnow" ]
