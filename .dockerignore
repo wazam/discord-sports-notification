@@ -4,5 +4,4 @@
 *.code-workspace
 *.yml
 Dockerfile
-Dockerfile.nightly
 *.md
