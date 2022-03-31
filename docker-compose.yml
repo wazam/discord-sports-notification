@@ -15,6 +15,5 @@ services:
       - MLB_THRESHOLD_INNING=9
       - TZ=America/New_York
     volumes:
-      - /path/to/config:/config
       - /path/to/data:/data
     restart: unless-stopped

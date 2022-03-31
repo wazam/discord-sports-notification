@@ -1,0 +1,9 @@
+data
+Dockerfile
+.dockerignore
+.gitignore
+*.env
+*.md
+*.yml
+*.code-workspace
+*.vscode
