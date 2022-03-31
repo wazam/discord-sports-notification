@@ -1,9 +1,9 @@
----
-version: "2.1"
+version: "3.9"
 services:
   app:
-    #build: or image:
-    container_name: sports-now
+    build: ./Dockerfile
+    image: discord-sports-notification:latest
+    container_name: discord-sports-notification
     environment:
       - DISCORD_TOKEN=your_bot_token_here
       - DISCORD_CHANNEL=your_channel_id_here
@@ -15,5 +15,7 @@ services:
       - MLB_THRESHOLD_INNING=9
       - TZ=America/New_York
     volumes:
-      - /path/to/data:/data
+      - type: bind
+        source: ./src/main.py
+        target: ./src/main.py
     restart: unless-stopped

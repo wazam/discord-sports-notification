@@ -1,9 +1,8 @@
-data
-Dockerfile
 .dockerignore
+.env
 .gitignore
-*.env
-*.md
-*.yml
 *.code-workspace
-*.vscode
+*.yml
+Dockerfile
+Dockerfile.nightly
+*.md
