@@ -1,29 +1,11 @@
-version: "2.1"
+version: "3.9"
 services:
   app:
-    #image: lscr.io/linuxserver/APP_NAME
-    #container_name: APP_NAME
-    #restart: unless-stopped
-    environment:
-      - DISCORD_TOKEN=your_bot_token_here
-      - DISCORD_CHANNEL=your_channel_id_here
-      - NBA_THRESHOLD_PT_DIFFERENTIAL=5
-      - NBA_THRESHOLD_MINS_LEFT=4
-      - NBA_THRESHOLD_PERIOD=4
-      - MLB_THRESHOLD_SCORE_DIFFERENTIAL=1
-      - MLB_THRESHOLD_MEN_ON_BASE="RISP" # "RISP" for 2nd/3rd, "Men_On" for 1st, "Empty" for none
-      - MLB_THRESHOLD_INNING=9
-    #  - PUID=1030
-    #  - PGID=65540
-    #  - TZ=America/New_York
+    build: ./Dockerfile
+    image: discord-sports-notification:latest
+    container_name: discord-sports-notification
     volumes:
-      - /your/path/to/data:/data
-    #  - /volume1/docker/data/APP_NAME:/config
-    #  - /etc/localtime:/etc/localtime:ro
-    #ports:
-    #  - "EXTERNAL:INTERNAL"
-    #network_mode: portainer_bridge
-    #labels:
-    #  - "com.centurylinklabs.watchtower.enable=true"
-    #healthcheck:
-    #  disable: true
+      - type: bind
+        source: ./src
+        target: ./src
+    restart: unless-stopped
