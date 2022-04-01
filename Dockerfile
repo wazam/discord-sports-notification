@@ -1,6 +1,6 @@
-FROM python:3-slim
+FROM python:3.7.5-slim
 
-COPY . .
+WORKDIR /discord
 
 ENV DISCORD_SECRET_TOKEN= \
     DISCORD_CHANNEL_ID= \
@@ -12,7 +12,12 @@ ENV DISCORD_SECRET_TOKEN= \
     MLB_THRESHOLD_MEN_ON_BASE="RISP" \
     TZ=America/New_York
 
-RUN pip install pipenv \
-    pipenv install
+COPY Pipfile .
+COPY Pipfile.lock .
+
+RUN pip install pipenv
+RUN pipenv install --deploy --ignore-pipfile
+
+COPY . .
 
 CMD pipenv run python src/main.py

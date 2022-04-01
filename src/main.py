@@ -1,7 +1,5 @@
-import discord
 from discord.ext import tasks, commands
 from os import getenv
-from requests import get
 
 from nba_games import NBAGamesChecker
 from mlb_games import MLBGamesChecker
