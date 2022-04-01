@@ -36,7 +36,7 @@ class MLBGamesChecker():
             if str(indiv_todays_games_data[j]['gameData']['satus']['detailedState']) == "In Progress":
                 if int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['about']['inning']) >= self.config['MLB_MINIMUM_INNING']:
                     if abs(int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['awayScore']) - int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['homeScore'])) <= self.config['MLB_MAXIMUM_SCORE_DIFFERENTIAL']:
-                        if str(indiv_todays_games_data[j]['liveData']['currentPlay']['matchup']['splits']['menOnBase']) == self.config['MLB_THRESHOLD_MEN_ON_BASE']:
+                        if str(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['matchup']['splits']['menOnBase']) == self.config['MLB_THRESHOLD_MEN_ON_BASE']:
                             found_game = self.notified_games.get(indiv_todays_games_data[j]['gamePk'])
 
                             if found_game == None:
