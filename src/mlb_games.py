@@ -5,9 +5,9 @@ class MLBGamesChecker():
     def __init__(self):
         self.notified_games = {}
         self.config = {
-            'MLB_MINIMUM_INNING': getenv('MLB_MINIMUM_INNING'),
-            'MLB_MAXIMUM_SCORE_DIFFERENTIAL': getenv('MLB_MAXIMUM_SCORE_DIFFERENTIAL'),
-            'MLB_THRESHOLD_MEN_ON_BASE': getenv('MLB_THRESHOLD_MEN_ON_BASE')
+            'min_inning': int(getenv('MLB_MINIMUM_INNING')),
+            'score_diff': int(getenv('MLB_MAXIMUM_SCORE_DIFFERENTIAL')),
+            'men_on_base': getenv('MLB_THRESHOLD_MEN_ON_BASE')
         }
 
     def update_config(self, config):
@@ -34,9 +34,9 @@ class MLBGamesChecker():
         games_to_notify = []
         for j in range(total_games):
             if str(indiv_todays_games_data[j]['gameData']['satus']['detailedState']) == "In Progress":
-                if int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['about']['inning']) >= self.config['MLB_MINIMUM_INNING']:
-                    if abs(int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['awayScore']) - int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['homeScore'])) <= self.config['MLB_MAXIMUM_SCORE_DIFFERENTIAL']:
-                        if str(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['matchup']['splits']['menOnBase']) == self.config['MLB_THRESHOLD_MEN_ON_BASE']:
+                if int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['about']['inning']) >= self.config['min_inning']:
+                    if abs(int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['awayScore']) - int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['homeScore'])) <= self.config['score_diff']:
+                        if str(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['matchup']['splits']['menOnBase']) == self.config['men_on_base']:
                             found_game = self.notified_games.get(indiv_todays_games_data[j]['gamePk'])
 
                             if found_game == None:

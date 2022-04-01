@@ -5,9 +5,9 @@ class NBAGamesChecker():
     def __init__(self):
         self.notified_games = {}
         self.config = {
-            'pt_differential': getenv('NBA_PT_DIFFERENTIAL'),
-            'mins_left': getenv('NBA_MINS_LEFT'),
-            'period': getenv('NBA_PERIOD')
+            'pt_differential': int(getenv('NBA_PT_DIFFERENTIAL')),
+            'mins_left': int(getenv('NBA_MINS_LEFT')),
+            'period': int(getenv('NBA_PERIOD'))
         }
     
     def update_config(self, config):

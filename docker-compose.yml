@@ -1,11 +1,11 @@
 version: "3.9"
 services:
   app:
-    build: ./Dockerfile
+    build: Dockerfile
     image: discord-sports-notification:latest
     container_name: discord-sports-notification
     volumes:
       - type: bind
         source: ./src
-        target: ./src
+        target: /src
     restart: unless-stopped
