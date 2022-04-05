@@ -11,13 +11,15 @@ mlb_checker = MLBGamesChecker()
 
 @bot.event
 async def on_ready():
-	print(f'{bot.user.name} is online and ready!')
-	notify_games.start()
+    print(f'{bot.user.name} is online and ready!')
+    notify_games.start()
 
 @tasks.loop(seconds=10)
 async def notify_games():
     channel = bot.get_channel(getenv('DISCORD_CHANNEL_ID'))
-    await nba_checker.notify_games(channel)
-    await mlb_checker.notify_games(channel)
+    if getenv('NBA_ENABLED') == True:
+        await nba_checker.notify_games(channel)
+    if getenv('MLB_ENABLED') == True:
+        await mlb_checker.notify_games(channel)
 
 bot.run(getenv('DISCORD_SECRET_TOKEN'))
