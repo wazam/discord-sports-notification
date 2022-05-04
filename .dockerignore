@@ -1,7 +1,6 @@
 .dockerignore
 .env.example
 .gitignore
-*.code-workspace
 *.yml
 Dockerfile
 *.md
