@@ -1,18 +1,25 @@
-FROM python:3-slim
+FROM python:3.7.5-slim
 
-COPY . .
+WORKDIR /discord
 
-ENV DISCORD_TOKEN= \
-    DISCORD_CHANNEL= \
-    NBA_THRESHOLD_PT_DIFFERENTIAL=5 \
-    NBA_THRESHOLD_MINS_LEFT=4 \
-    NBA_THRESHOLD_PERIOD=4 \
-    MLB_THRESHOLD_SCORE_DIFFERENTIAL=1 \
+ENV DISCORD_SECRET_TOKEN= \
+    DISCORD_CHANNEL_ID= \
+    NBA_ENABLED=True \
+    NBA_PT_DIFFERENTIAL=5 \
+    NBA_MINS_LEFT=4 \
+    NBA_PERIOD=4 \
+    MLB_ENABLED=False \
+    MLB_MINIMUM_INNING=9 \
+    MLB_MAXIMUM_SCORE_DIFFERENTIAL=1 \
     MLB_THRESHOLD_MEN_ON_BASE="RISP" \
-    MLB_THRESHOLD_INNING=9 \
     TZ=America/New_York
 
-RUN pip install pipenv \
-    pipenv install
+COPY Pipfile .
+COPY Pipfile.lock .
+
+RUN pip install pipenv
+RUN pipenv install --deploy --ignore-pipfile
+
+COPY . .
 
 CMD pipenv run python src/main.py

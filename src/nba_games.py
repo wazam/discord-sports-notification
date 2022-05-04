@@ -1,12 +1,13 @@
+from os import getenv
 from requests import get
 
 class NBAGamesChecker():
     def __init__(self):
         self.notified_games = {}
         self.config = {
-            'pt_differential': 5,
-            'mins_left': 4,
-            'period': 4
+            'pt_differential': int(getenv('NBA_PT_DIFFERENTIAL')),
+            'mins_left': int(getenv('NBA_MINS_LEFT')),
+            'period': int(getenv('NBA_PERIOD'))
         }
     
     def update_config(self, config):
