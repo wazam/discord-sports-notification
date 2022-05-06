@@ -1,6 +1,7 @@
 .dockerignore
 .env.example
 .gitignore
+.python-version
 *.yml
 Dockerfile
 *.md
