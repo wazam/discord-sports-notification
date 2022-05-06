@@ -1,5 +1,5 @@
 from discord.ext import tasks, commands
-from os import getenv
+from os import environ
 
 from nba_games import NBAGamesChecker
 from mlb_games import MLBGamesChecker
@@ -16,10 +16,10 @@ async def on_ready():
 
 @tasks.loop(seconds=10)
 async def notify_games():
-    channel = bot.get_channel(getenv('DISCORD_CHANNEL_ID'))
-    if getenv('NBA_ENABLED') == True:
+    channel = bot.get_channel(environ.get('DISCORD_CHANNEL_ID'))
+    if eval(environ.get('NBA_ENABLED', True)) == True:
         await nba_checker.notify_games(channel)
-    if getenv('MLB_ENABLED') == True:
+    if eval(environ.get('MLB_ENABLED', False)) == True:
         await mlb_checker.notify_games(channel)
 
-bot.run(getenv('DISCORD_SECRET_TOKEN'))
+bot.run(environ.get('DISCORD_SECRET_TOKEN'))

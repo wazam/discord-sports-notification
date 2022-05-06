@@ -1,5 +1,5 @@
 # Used to get environment variables
-from os import getenv
+from os import environ
 # Used to load web pages
 from requests import get
 
@@ -10,11 +10,11 @@ class MLBGamesChecker():
         # Set config variables from environment variables on startup
         self.config = {
             # Set the earliest inning that a notification can activate for, innings less than value are ignored
-            'min_inning': int(getenv('MLB_MINIMUM_INNING')),
+            'min_inning': int(environ.get('MLB_MINIMUM_INNING', 9)),
             # Set the highest score-difference-between-teams that a notification can activate for, scores-differentials higher than value are ignored
-            'score_diff': int(getenv('MLB_MAXIMUM_SCORE_DIFFERENTIAL')),
+            'score_diff': int(environ.get('MLB_MAXIMUM_SCORE_DIFFERENTIAL', 1)),
             # Set the minimum amount of baserunners that a notification can activate for, situations with less man on base than the value are ignored
-            'men_on_base': getenv('MLB_THRESHOLD_MEN_ON_BASE')
+            'men_on_base': environ.get('MLB_THRESHOLD_MEN_ON_BASE', "RISP")
         }
 
     def update_config(self, config):
@@ -88,4 +88,3 @@ class MLBGamesChecker():
         for game in games_to_notify:
             # Send Discord message of Game's details
             await channel.send(f'{game["home_text"]}-{game["away_text"]}-{game["time_left"]}')
-            
