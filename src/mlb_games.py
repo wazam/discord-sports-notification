@@ -10,11 +10,11 @@ class MLBGamesChecker():
         # Set config variables from environment variables on startup
         self.config = {
             # Set the earliest inning that a notification can activate for, innings less than value are ignored
-            'min_inning': int(environ.get('MLB_MINIMUM_INNING', 9)),
+            'MLB_INNING': int(environ.get('MLB_INNING', 9)),
             # Set the highest score-difference-between-teams that a notification can activate for, scores-differentials higher than value are ignored
-            'score_diff': int(environ.get('MLB_MAXIMUM_SCORE_DIFFERENTIAL', 1)),
+            'MLB_RUN_DIFFERENTIAL': int(environ.get('MLB_RUN_DIFFERENTIAL', 1)),
             # Set the minimum amount of baserunners that a notification can activate for, situations with less man on base than the value are ignored
-            'men_on_base': environ.get('MLB_THRESHOLD_MEN_ON_BASE', "RISP")
+            'MLB_BASERUNNERS': environ.get('MLB_BASERUNNERS', "RISP")
         }
 
     def update_config(self, config):
@@ -37,29 +37,44 @@ class MLBGamesChecker():
         # Get index of today's games and their data
         todays_games_data = self.get_games()
         # Get number of today's total games
-        total_games = todays_games_data['totalGames']
-        # Create new indexes to save games and their data into
-        indiv_todays_games_arry = [], indiv_todays_games_resp = [], indiv_todays_games_data = []
-        # Loop through all the number of games
-        for i in range(total_games):
-            # Get URL link for each Game's full details
-            indiv_todays_games_arry[i] = todays_games_data['dates']['0']['games'][i]['link']
-            # Load web page for each Games' full details
-            indiv_todays_games_resp[i] = get("http://statsapi.mlb.com" + indiv_todays_games_arry[i])
-            # Create index with JSON parsing of web page
-            indiv_todays_games_data[i] = indiv_todays_games_resp[i].json()
+        total_games = int(todays_games_data['totalGames'])
+        # Create new list to save games and their data to
+        indiv_todays_games_data = []
+        # Loop through all games
+        for j in range(total_games):
+            resp = get("http://statsapi.mlb.com" + todays_games_data['dates'][0]['games'][j]['link'])
+            # Create list with JSON parsing of each individual games' full details from individual URL
+            indiv_todays_games_data.append(resp.json())
         # Create index of today's Games to notify for in the current requested check of all Games
         games_to_notify = []
         # Loop through all the number of games
         for j in range(total_games):
             # Find Games in progress
-            if str(indiv_todays_games_data[j]['gameData']['satus']['detailedState']) == "In Progress":
+            if str(indiv_todays_games_data[j]['gameData']['status']['detailedState']) == "In Progress":
                 # Find Games at least past the minimum inning threshold
-                if int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['about']['inning']) >= self.config['min_inning']:
+                if int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['about']['inning']) >= self.config['MLB_INNING']:
                     # Find Games with score differentials lower than the maximum scoring threshold
-                    if abs(int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['awayScore']) - int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['homeScore'])) <= self.config['score_diff']:
+                    if abs(int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['awayScore']) - int(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['result']['homeScore'])) <= self.config['MLB_RUN_DIFFERENTIAL']:
+                        # Set value to check baserunners situations which are inherently superseded by other conditions
+                        MLB_BASERUNNERS_my_text = self.config['MLB_BASERUNNERS']
+                        # Convert text to numerical ranking
+                        if MLB_BASERUNNERS_my_text == "RISP":
+                            MLB_BASERUNNERS_my_val = 2
+                        elif MLB_BASERUNNERS_my_text == "Men_On":
+                            MLB_BASERUNNERS_my_val = 1
+                        elif MLB_BASERUNNERS_my_text == "Empty":
+                            MLB_BASERUNNERS_my_val = 0
+                        # Set value to check baserunners situations which are inherently superseded by other conditions
+                        MLB_BASERUNNERS_game_text = str(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['matchup']['splits']['menOnBase'])
+                        # Convert text to numerical ranking
+                        if MLB_BASERUNNERS_game_text == "RISP":
+                            MLB_BASERUNNERS_game_val = 2
+                        elif MLB_BASERUNNERS_game_text == "Men_On":
+                            MLB_BASERUNNERS_game_val = 1
+                        elif MLB_BASERUNNERS_game_text == "Empty":
+                            MLB_BASERUNNERS_game_val = 0
                         # Find Games with at least the minimum baserunners
-                        if str(indiv_todays_games_data[j]['liveData']['plays']['currentPlay']['matchup']['splits']['menOnBase']) == self.config['men_on_base']:
+                        if MLB_BASERUNNERS_game_val >= MLB_BASERUNNERS_my_val:
                             # Find individual Game's MLB API ID in index of Games notifications have already been sent out for
                             found_game = self.notified_games.get(indiv_todays_games_data[j]['gamePk'])
                             # Find Games with no notifications already sent
@@ -87,4 +102,10 @@ class MLBGamesChecker():
         # Loop through all the new Games to send notifications for
         for game in games_to_notify:
             # Send Discord message of Game's details
-            await channel.send(f'{game["home_text"]}-{game["away_text"]}-{game["time_left"]}')
+            await channel.send(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
+
+# Used for executing directly when testing
+if __name__ == "__main__":
+    games_to_notify = MLBGamesChecker().check_games()
+    for game in games_to_notify:
+        print(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}', flush=True)
