@@ -5,9 +5,9 @@ class NBAGamesChecker():
     def __init__(self):
         self.notified_games = {}
         self.config = {
+            'period': int(environ.get('NBA_PERIOD', 4)),
             'pt_differential': int(environ.get('NBA_PT_DIFFERENTIAL', 5)),
-            'mins_left': int(environ.get('NBA_MINS_LEFT', 4)),
-            'period': int(environ.get('NBA_PERIOD', 4))
+            'mins_left': int(environ.get('NBA_MINS_LEFT', 4))
         }
     
     def update_config(self, config):
@@ -23,6 +23,11 @@ class NBAGamesChecker():
         todays_games_resp = get("https://data.nba.net/10s" + scoreboard_endpoint)
         todays_games_data = todays_games_resp.json()
         return todays_games_data
+
+    def prefix_command_for_games(self):
+        todays_games_data = self.get_games()
+        total_games = int(todays_games_data['numGames'])
+        return total_games
 
     def check_games(self):
         todays_games_data = self.get_games()
@@ -71,4 +76,10 @@ class NBAGamesChecker():
         games_to_notify = self.check_games()
 
         for game in games_to_notify:
-            await channel.send(f'{game["home_text"]}-{game["away_text"]}-{game["time_left"]}')
+            await channel.send(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
+
+# Used for executing directly when testing
+if __name__ == "__main__":
+    games_to_notify = NBAGamesChecker().check_games()
+    for game in games_to_notify:
+        print(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}', flush=True)
