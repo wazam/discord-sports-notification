@@ -12,7 +12,7 @@ updates:
       interval: "daily"
     ignore:
       - dependency-name: "python"
-      versions: [">3.7.5"]
+        versions: [">3.7.5"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
