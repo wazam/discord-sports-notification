@@ -12,7 +12,7 @@ A Discord bot for sending sports notifications, made in Python. A message is sen
 1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [docker-compose](https://docs.docker.com/compose/install/), and [docker](https://docs.docker.com/engine/install/) if needed.
 2. [Clone](https://git-scm.com/docs/git-clone) the repo.
 ```sh
-git clone https://github.com/noahschechter/discord-sports-notification.git
+git clone https://github.com/wazam/discord-sports-notification.git
 ```
 3. Change the current working directory.
 ```sh
