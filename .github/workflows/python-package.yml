@@ -39,6 +39,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        pipenv --python ~/.local/share/virtualenvs
         pipenv install --dev
         pipenv install flake8
         pipenv install pytest
