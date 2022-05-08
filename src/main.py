@@ -1,4 +1,3 @@
-from ast import alias
 import discord
 from discord.ext import tasks, commands
 from os import environ
@@ -81,5 +80,4 @@ async def notify_games():
     if MLB_enabled:
         await mlb_checker.notify_games(channel)
 
-# if __name__ == "__main__":
 bot.run(environ.get('DISCORD_SECRET_TOKEN'))
