@@ -1,3 +1,6 @@
+.vscode/
+docs/
+__pycache__/
 .dockerignore
 .env.example
 .gitignore
