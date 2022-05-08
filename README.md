@@ -1,4 +1,4 @@
-# [Sports Now!!!](https://github.com/noahschechter/discord-sports-notification)
+# [Sports Now!!!](https://github.com/wazam/discord-sports-notification)
 
 A Discord bot for sending sports notifications, made in Python. A message is sent notifying users in a channel when an almost-completed sports game has a close score between the teams. 98% umpball-free. The last 2% is the hardest to get. That's why they leave it in the milk.
 
