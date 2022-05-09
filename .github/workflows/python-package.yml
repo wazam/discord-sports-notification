@@ -39,7 +39,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pipenv install
+        pipenv install --skip-lock
 
     - name: Lint with flake8
       run: |
