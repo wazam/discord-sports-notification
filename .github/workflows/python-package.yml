@@ -29,7 +29,7 @@ jobs:
         python -m pip install pipenv
 
     - name: Cache Pipenv virtualenv
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       id: pipenv-cache
       with:
         path: ~/.local/share/virtualenvs
