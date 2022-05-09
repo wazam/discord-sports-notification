@@ -39,7 +39,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pipenv install
+        pipenv install --deploy --ignore-pipfile
 
     - name: Lint with flake8
       run: |
