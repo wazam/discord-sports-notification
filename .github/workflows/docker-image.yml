@@ -1,4 +1,6 @@
-name: Docker Image CI
+# https://github.com/actions/starter-workflows/blob/main/ci/docker-image.yml
+
+name: Docker Image
 
 on:
   push:
@@ -9,7 +11,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag discord-sports-notification:$(date +%s)

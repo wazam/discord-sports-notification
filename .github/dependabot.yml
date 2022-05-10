@@ -1,9 +1,12 @@
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#configuration-options-for-updates
+
 version: 2
 updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "daily"
+
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
@@ -11,6 +14,7 @@ updates:
     ignore:
       - dependency-name: "python"
         versions: [">3.7.5"]
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
