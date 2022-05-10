@@ -78,7 +78,7 @@ class MLBGamesChecker():
                             # Find individual Game's MLB API ID in index of Games notifications have already been sent out for
                             found_game = self.notified_games.get(indiv_todays_games_data[j]['gamePk'])
                             # Find Games with no notifications already sent
-                            if found_game == None:
+                            if found_game is None:
                                 # Find current half of the current inning
                                 time_left = str(indiv_todays_games_data[j]['liveData']['linescore']['inningHalf']) + ' of the ' + str(indiv_todays_games_data[j]['liveData']['linescore']['currentInningOrdinal'])
                                 # Find home team's current score

@@ -59,7 +59,7 @@ class NBAGamesChecker():
                 if minutes <= self.config['mins_left'] and pts_difference <= self.config['pt_differential']:
                     found_game = self.notified_games.get(game['gameId'])
 
-                    if found_game == None:
+                    if found_game is None:
                         time_left = period + ' ' + game['clock']
 
                         home_text = home['triCode'] + ' ' + str(home['score'])
