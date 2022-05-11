@@ -5,4 +5,3 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: discord-sports-notification
-    image: ghcr.io/wazam/discord-sports-notification:main
