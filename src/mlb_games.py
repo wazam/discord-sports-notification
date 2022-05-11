@@ -96,14 +96,6 @@ class MLBGamesChecker():
         # Return index of Games and their data
         return games_to_notify
 
-    async def notify_games(self, channel):
-        # Get index of new games to send notifcations for by checking all games and index of list of games already notified for
-        games_to_notify = self.check_games()
-        # Loop through all the new Games to send notifications for
-        for game in games_to_notify:
-            # Send Discord message of Game's details
-            await channel.send(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
-
 # Used for executing directly when testing
 if __name__ == "__main__":
     games_to_notify = MLBGamesChecker().check_games()

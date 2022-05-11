@@ -72,12 +72,6 @@ class NBAGamesChecker():
 
         return games_to_notify
 
-    async def notify_games(self, channel):
-        games_to_notify = self.check_games()
-
-        for game in games_to_notify:
-            await channel.send(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
-
 # Used for executing directly when testing
 if __name__ == "__main__":
     games_to_notify = NBAGamesChecker().check_games()

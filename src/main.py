@@ -10,7 +10,6 @@ command_prefix = environ.get('BOT_PREFIX', ">")
 description = '( ͡° ͜ʖ ͡°) Alan is alive, but I cannot tell you where he is.'
 activity = discord.Activity(type=discord.ActivityType.watching, name=command_prefix + "help")
 bot = commands.Bot(command_prefix=command_prefix, description=description, activity=activity, status=discord.Status.online, case_insensitive=True)
-channel = bot.get_channel(int(environ.get('DISCORD_CHANNEL_ID')))
 refresh_rate = float(environ.get('BOT_REFRESH', 10))
 NBA_enabled = eval(environ.get('NBA_ENABLED', True))
 MLB_enabled = eval(environ.get('MLB_ENABLED', False))
@@ -21,7 +20,7 @@ mlb_checker = MLBGamesChecker()
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} is online and ready!', flush=True)
-    notify_games.start()
+    notify_all_games.start()
 
 @bot.command()
 async def ping(ctx):
@@ -74,10 +73,15 @@ async def games(ctx):
     await ctx.send(msg)
 
 @tasks.loop(seconds=refresh_rate)
-async def notify_games():
+async def notify_all_games():
+    channel = bot.get_channel(int(environ.get('DISCORD_CHANNEL_ID')))
     if NBA_enabled:
-        await nba_checker.notify_games(channel)
+        nba_games_to_notify = nba_checker.check_games()
+        for game in nba_games_to_notify:
+            await channel.send(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
     if MLB_enabled:
-        await mlb_checker.notify_games(channel)
+        mlb_games_to_notify = mlb_checker.check_games()
+        for game in mlb_games_to_notify:
+            await channel.send(f'{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
 
 bot.run(environ.get('DISCORD_SECRET_TOKEN'))
