@@ -20,7 +20,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build the stack
-      run: docker-compose up -d --name my-service my-service
+      run: docker-compose up --no-start
 
     - name: Test the compose file
-      run: docker run --network container:my-service appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
+      run: |
+        docker run --detach --name my-service
+        docker run --network container:my-service appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
