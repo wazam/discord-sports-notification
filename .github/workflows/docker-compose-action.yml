@@ -23,4 +23,4 @@ jobs:
       run: docker-compose up -d
 
     - name: Test the compose file
-      run: docker run --network container:discord-sports-notification appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/
+      run: docker run --network container:discord-sports-notification:main appropriate/curl -s --retry 10 --retry-connrefused http://localhost:5000/

@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   app:
-    image: discord-sports-notification
+    image: discord-sports-notification:main
     build:
       context: .
       dockerfile: Dockerfile
