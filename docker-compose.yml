@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   bot:
+    image: discord-sports-notification:main
     build:
       context: .
       dockerfile: Dockerfile
