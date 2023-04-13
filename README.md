@@ -1,38 +1,35 @@
 # [Sports Now!!!](https://github.com/wazam/discord-sports-notification)
 
-A Discord bot for sending sports notifications, made in Python. A message is sent notifying users in a channel when an almost-completed sports game has a close score between the teams. 98% umpball-free. The last 2% is the hardest to get. That's why they leave it in the milk.
+A Discord bot for sending sports notifications, made in [Python](https://www.python.org/). A message is sent notifying users in a channel when an almost-completed sports game has a close score between the teams. 98% umpball-free. The last 2% is the hardest to get. That's why they leave it in the milk.
 
-## Requirements
-
-- [```git```](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-- [```docker-compose```](https://docs.docker.com/compose/install/)
-
-## General Setup
+## Installation
 
 1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [docker-compose](https://docs.docker.com/compose/install/), and [docker](https://docs.docker.com/engine/install/) if needed.
 2. [Clone](https://git-scm.com/docs/git-clone) the repo.
 ```sh
 git clone https://github.com/wazam/discord-sports-notification.git
 ```
-3. Change the current working directory.
+3. Change to the current working directory.
 ```sh
 cd ./discord-sports-notification
 ```
 4. Copy the `.env.example` file and rename it to `.env`.
 5. Add your Discord secret_token and channel_ID from [discord.com](https://discord.com/developers/applications) to the `.env` file.
-6. [Run](https://docs.docker.com/compose/reference/up/) the ```docker-compose.yml``` file to build and run the app.
+6. Enable additional bot settings. ![](docs/additional-discord-bot-settings.jpg)
+7. Add the bot to your server.
+7. [Run](https://docs.docker.com/compose/reference/up/) the ```docker-compose.yml``` file to build and run the app.
 ```sh
 docker-compose up -d
 ```
 
 ## Example
 
-![example](docs/example-discord-notifcations.jpg)
+![](docs/example-discord-notifcations.jpg)
 
-## Commands
+## Bot Commands
 
-- ```>help``` displays all commands.
-- ```>games``` or ```>today``` displays amount of games today.
+- ```help``` displays all commands.
+- ```games``` or ```today``` displays amount of games today.
 
 ## Supported Sports
 

@@ -6,13 +6,13 @@ from datetime import date
 from nba_games import NBAGamesChecker
 from mlb_games import MLBGamesChecker
 
-command_prefix = environ.get('BOT_PREFIX', ">")
+command_prefix = environ.get('BOT_PREFIX', "!")
 description = '( ͡° ͜ʖ ͡°) Alan is alive, but I cannot tell you where he is.'
 activity = discord.Activity(type=discord.ActivityType.watching, name=command_prefix + "help")
 bot = commands.Bot(command_prefix=command_prefix, intents=discord.Intents.all(), description=description, activity=activity, status=discord.Status.online, case_insensitive=True)
-refresh_rate = float(environ.get('BOT_REFRESH', 10))
+refresh_rate = float(environ.get('BOT_REFRESH', 300))
 NBA_enabled = eval(environ.get('NBA_ENABLED', True))
-MLB_enabled = eval(environ.get('MLB_ENABLED', False))
+MLB_enabled = eval(environ.get('MLB_ENABLED', True))
 
 nba_checker = NBAGamesChecker()
 mlb_checker = MLBGamesChecker()
@@ -40,6 +40,16 @@ async def whereisalan(ctx):
 @bot.command()
 async def passtheboof(ctx):
     msg = f':here:'
+    await ctx.send(msg)
+
+@bot.command(aliases=['petealonso'])
+async def mets(ctx):
+    msg = f'http://blabseal.org/coolbeans/'
+    await ctx.send(msg)
+
+@bot.command()
+async def whoami(ctx):
+    msg = f'https://github.com/wazam/discord-sports-notification'
     await ctx.send(msg)
 
 @bot.command(aliases=['today'])
