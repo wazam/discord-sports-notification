@@ -1,5 +1,6 @@
 import discord
 from discord.ext import tasks, commands
+import os
 from os import environ
 from datetime import datetime, timedelta
 import requests
@@ -7,14 +8,15 @@ import requests
 from nba_games import NBAGamesChecker
 from mlb_games import MLBGamesChecker
 
-command_prefix = environ.get('BOT_PREFIX', "!")
+command_prefix = environ.get('BOT_PREFIX', '!')
 description = '( ͡° ͜ʖ ͡°) Alan is alive, but I cannot tell you where he is.'
-activity = discord.Activity(type=discord.ActivityType.watching, name=command_prefix + "help")
+activity = discord.Activity(type=discord.ActivityType.watching, name=command_prefix + 'help')
 bot = commands.Bot(command_prefix=command_prefix, intents=discord.Intents.all(), description=description, activity=activity, status=discord.Status.online, case_insensitive=True)
 refresh_rate = float(environ.get('BOT_REFRESH', 300))
 NBA_enabled = eval(environ.get('NBA_ENABLED', True))
 MLB_enabled = eval(environ.get('MLB_ENABLED', True))
 openweathermap_api_key = environ.get('OPENWEATHERMAP_API_KEY')
+url_user_agent = str('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0')
 
 nba_checker = NBAGamesChecker()
 mlb_checker = MLBGamesChecker()
@@ -51,7 +53,7 @@ async def mets(ctx):
 
 @bot.command()
 async def whoami(ctx):
-    msg = f'https://github.com/wazam/discord-sports-notification'
+    msg = f'https://github.com/wazam/discord-sports-notification/pkgs/container/discord-sports-notification'
     await ctx.send(msg)
 
 @bot.command()
@@ -63,29 +65,28 @@ async def time(ctx):
 async def weather(ctx, *, user_search):
     if user_search.isnumeric():
         if int(float(user_search)) > 0 and int(float(user_search)) < 100000: # Zipcode formatting
-            url = "http://api.openweathermap.org/geo/1.0/zip?zip=" + str(user_search) + "&appid=" + openweathermap_api_key
+            url = f'http://api.openweathermap.org/geo/1.0/zip?zip={user_search}&appid={openweathermap_api_key}'
             response = requests.get(url)
             data = response.json()
             lat = float(data['lat'])
             lon = float(data['lon'])
     else:
-        url = "http://api.openweathermap.org/geo/1.0/direct?q=" + str(user_search) + "&limit=1&appid=" + openweathermap_api_key
+        url = f'http://api.openweathermap.org/geo/1.0/direct?q={user_search}&limit=1&appid={openweathermap_api_key}'
         response = requests.get(url)
         data = response.json()
         lat = float(data[0]['lat'])
         lon = float(data[0]['lon'])
-    url = "https://api.openweathermap.org/data/2.5/weather?lat=" + str(lat) + "&lon=" + str(lon) + "&units=imperial&appid=" + openweathermap_api_key
+    url = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=imperial&appid={openweathermap_api_key}'
     response = requests.get(url)
-    final_data = response.json()
-    weather_data = final_data['weather'][0]
-    temp_data = final_data['main']
-
-    msg = f'{int(round(temp_data["temp"],0))}°F and {weather_data["description"]} in {final_data["name"]} right now.'
+    data = response.json()
+    weather_data = data['weather'][0]
+    temp_data = data['main']
+    msg = f'{int(round(temp_data["temp"],0))}°F and {weather_data["description"]} in {data["name"]} right now.'
     await ctx.send(msg)
 
 @bot.command(aliases=['today'])
 async def games(ctx):
-    text = ""
+    text = ''
     if NBA_enabled:
         num_nba_games = NBAGamesChecker().prefix_command_for_games()
         if num_nba_games > 0:
@@ -109,10 +110,62 @@ async def games(ctx):
             text += 's'
     if NBA_enabled or MLB_enabled:
         today_raw = datetime.today() - timedelta(hours=4)
-        today = today_raw.strftime("%b %-d, %Y")
+        today = today_raw.strftime('%b %-d, %Y')
         text += ' today, ' + str(today) + '.'
     msg = f'{text}'
     await ctx.send(msg)
+
+@bot.command(aliases=['bootygoblin'])
+async def booty(ctx, *, user_request):
+
+    def find(keyword):
+        if os.path.exists('result.png'):
+            os.remove('result.png')
+
+        url = f'https://www.reddit.com/api/search_reddit_names.json?include_over_18=true&query={keyword}'
+        response = requests.get(url, headers={'User-agent': url_user_agent})
+        data = response.json()
+        if len(data['names']) > 0:
+            data_names = data['names']
+            for name in data_names:
+                url = f'https://www.reddit.com/r/{name}/top.json?limit=1'
+                response = requests.get(url, headers={'User-agent': url_user_agent})
+                try:
+                    if bool(response.json()['data']['children'][0]['data']['over_18']):
+                        return get(name + '/top')
+                except IndexError:
+                    continue
+                except KeyError:
+                    continue
+        return "That's digusting!"
+
+    def get(location):
+        url = f'https://www.reddit.com/r/{location}.json?limit=1'
+        response = requests.get(url, headers={'User-agent': url_user_agent})
+        data = response.json()['data']['children'][0]['data']
+        content = data['subreddit_name_prefixed'] + ': ' + data['title']
+
+        try:
+            for each_image in data['media_metadata']:
+                data_url = data['media_metadata'][each_image]['s']['u'].replace('amp;', '')
+                response = requests.get(data_url)
+                with open('result.png', 'wb') as my_file:
+                    my_file.write(response.content)
+                    return content
+        except KeyError:
+            if 'gif' in data['url'] or data['url'][-1] == '/':
+                media_url = data['url']
+                return content + ' ' + media_url
+            response = requests.get(data['url'])
+            with open('result.png', 'wb') as my_file:
+                my_file.write(response.content)
+                return content
+
+    msg = find(user_request)
+    if os.path.exists('result.png'):
+        await ctx.send(content='||'+msg+'||', file=discord.File(fp='result.png', filename='booty.png', spoiler=True))
+    else:
+        await ctx.send('||'+msg+'||')
 
 @tasks.loop(seconds=refresh_rate)
 async def notify_all_games():
