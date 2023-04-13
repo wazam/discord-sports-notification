@@ -4,6 +4,8 @@ A Discord bot for sending sports notifications, made in [Python](https://www.pyt
 
 ## Installation
 
+### Manual
+
 1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [docker-compose](https://docs.docker.com/compose/install/), and [docker](https://docs.docker.com/engine/install/) if needed.
 2. [Clone](https://git-scm.com/docs/git-clone) the repo.
 ```sh
@@ -20,6 +22,26 @@ cd ./discord-sports-notification
 7. [Run](https://docs.docker.com/compose/reference/up/) the ```docker-compose.yml``` file to build and run the app.
 ```sh
 docker-compose up -d
+```
+
+### Docker-compose
+```sh
+---
+version: "3.9"
+services:
+  bot:
+    image: ghcr.io/wazam/discord-sports-notification:main
+    environment:
+      - DISCORD_SECRET_TOKEN={YOUR_VALUE}
+      - DISCORD_CHANNEL_ID={YOUR_VALUE}
+```
+
+### Docker
+```sh
+docker run -d \
+  -e DISCORD_SECRET_TOKEN={YOUR_VALUE} \
+  -e DISCORD_CHANNEL_ID={YOUR_VALUE} \
+  ghcr.io/wazam/discord-sports-notification:main
 ```
 
 ## Example
@@ -49,8 +71,10 @@ docker-compose up -d
 
 - [NBA Terms of Use](https://www.nba.com/termsofuse)
 - [MLB Terms of Use](https://www.mlb.com/official-information/terms-of-use)
-- [MLB Copyright](http://gdx.mlb.com/components/copyright.txt)
+- [MLB Copyright](https://gdx.mlb.com/components/copyright.txt)
 - [NHL Terms of Service](https://www.nhl.com/info/terms-of-service)
-- [ESPN Terms of Use](http://www.espn.com/apis/devcenter/terms.html)
+- [ESPN Terms of Use](https://web.archive.org/web/20220409030827/http://www.espn.com/apis/devcenter/terms.html)
+- [Disney Terms of Use](https://disneytermsofuse.com/english/)
 - [Discord Terms of Service](https://discord.com/terms)
 - [Discord Community Guidelines](https://discord.com/guidelines)
+- [OpenWeatherMap Terms of Use](https://openweather.co.uk/storage/app/media/Terms/Openweather_website_terms_and_conditions_of_use.pdf)
