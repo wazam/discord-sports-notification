@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  bot:
+  app:
     image: discord-sports-notification:main
     build:
       context: .

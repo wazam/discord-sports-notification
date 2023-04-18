@@ -1,12 +1,13 @@
-FROM python:3.10.4-slim
+FROM python:3.11.3-slim
 
-WORKDIR /discord
+WORKDIR /app
 
 COPY Pipfile .
 COPY Pipfile.lock .
 
+RUN pip install pip --upgrade
 RUN pip install pipenv
-RUN pipenv install --deploy --ignore-pipfile
+RUN pipenv install --ignore-pipfile --deploy
 
 COPY . .
 
