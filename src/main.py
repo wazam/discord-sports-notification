@@ -5,8 +5,10 @@ from os import environ
 from datetime import datetime, timedelta
 import requests
 
-from nba_games import NBAGamesChecker
-from mlb_games import MLBGamesChecker
+from utils.nba import NBAGamesChecker
+from utils.mlb import MLBGamesChecker
+# import utils.booty
+from utils import weather
 
 command_prefix = environ.get('BOT_PREFIX', '!')
 description = '( ͡° ͜ʖ ͡°) Alan is alive, but I cannot tell you where he is.'
@@ -15,7 +17,6 @@ bot = commands.Bot(command_prefix=command_prefix, intents=discord.Intents.all(),
 refresh_rate = float(environ.get('BOT_REFRESH', 300))
 NBA_enabled = eval(environ.get('NBA_ENABLED', True))
 MLB_enabled = eval(environ.get('MLB_ENABLED', True))
-openweathermap_api_key = environ.get('OPENWEATHERMAP_API_KEY')
 url_user_agent = str('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0')
 
 nba_checker = NBAGamesChecker()
@@ -43,7 +44,7 @@ async def whereisalan(ctx):
 
 @bot.command()
 async def passtheboof(ctx):
-    msg = f':here:'
+    msg = f':here:' #fix
     await ctx.send(msg)
 
 @bot.command(aliases=['petealonso'])
@@ -63,25 +64,7 @@ async def time(ctx):
 
 @bot.command()
 async def weather(ctx, *, user_search):
-    if user_search.isnumeric():
-        if int(float(user_search)) > 0 and int(float(user_search)) < 100000: # Zipcode formatting
-            url = f'http://api.openweathermap.org/geo/1.0/zip?zip={user_search}&appid={openweathermap_api_key}'
-            response = requests.get(url)
-            data = response.json()
-            lat = float(data['lat'])
-            lon = float(data['lon'])
-    else:
-        url = f'http://api.openweathermap.org/geo/1.0/direct?q={user_search}&limit=1&appid={openweathermap_api_key}'
-        response = requests.get(url)
-        data = response.json()
-        lat = float(data[0]['lat'])
-        lon = float(data[0]['lon'])
-    url = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=imperial&appid={openweathermap_api_key}'
-    response = requests.get(url)
-    data = response.json()
-    weather_data = data['weather'][0]
-    temp_data = data['main']
-    msg = f'{int(round(temp_data["temp"],0))}°F and {weather_data["description"]} in {data["name"]} right now.'
+    msg = weather.lookup(user_search)
     await ctx.send(msg)
 
 @bot.command(aliases=['today'])
@@ -173,10 +156,10 @@ async def notify_all_games():
     if NBA_enabled:
         nba_games_to_notify = nba_checker.check_games()
         for game in nba_games_to_notify:
-            await channel.send(f':basketball:{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
+            await channel.send(f':basketball: {game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
     if MLB_enabled:
         mlb_games_to_notify = mlb_checker.check_games()
         for game in mlb_games_to_notify:
-            await channel.send(f':baseball:{game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
+            await channel.send(f':baseball: {game["home_text"]} - {game["away_text"]} - {game["time_left"]}')
 
 bot.run(environ.get('DISCORD_SECRET_TOKEN'))
