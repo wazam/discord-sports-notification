@@ -1,12 +1,12 @@
 # https://github.com/actions/starter-workflows/blob/main/ci/python-app.yml
 
-name: Python Application
+name: Python application
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -28,12 +28,9 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-        # https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md#caching-packages
         cache: 'pipenv'
 
     - name: Install dependencies
-        # python -m pip install --upgrade pip
-        # curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
       run: |
         pip install pipenv
         pipenv install --deploy
@@ -43,3 +40,8 @@ jobs:
         pipenv install flake8 --ignore-pipfile
         pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Test with pytest
+      run: |
+        pipenv install pytest
+        pytest
