@@ -11,6 +11,9 @@ on:
   pull_request:
     branches:
       - 'main'
+  fork:
+    branches:
+      - 'main'
   workflow_dispatch:
 
 env:
