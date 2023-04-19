@@ -3,12 +3,11 @@
 name: Docker Image
 
 on:
-  schedule:
-    - cron: '30 20 * * *'
   push:
-    branches: [ main ]
+    branches: [ main] 
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
