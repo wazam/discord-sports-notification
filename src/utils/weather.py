@@ -1,7 +1,7 @@
 from os import environ
 import requests
 
-openweathermap_api_key = environ.get('OPENWEATHERMAP_API_KEY', default = 0)
+openweathermap_api_key = environ.get('OPENWEATHERMAP_API_KEY')
 
 def lookup(user_search):
 
@@ -12,8 +12,12 @@ def lookup(user_search):
             url = f'http://api.openweathermap.org/geo/1.0/zip?zip={user_search}&appid={openweathermap_api_key}'
             response = requests.get(url)
             data = response.json()
-            lat = float(data['lat'])
-            lon = float(data['lon'])
+            try:
+                lat = float(data['lat'])
+                lon = float(data['lon'])
+            except KeyError:
+                msg = f'No OpenWeatherMap API Key provided.'
+                return msg
 
     # Convert location city/area name to latitude/longitutde
     # https://openweathermap.org/api/geocoding-api#direct_name_how
