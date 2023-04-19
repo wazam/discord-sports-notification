@@ -21,15 +21,6 @@ on:
       - '**.py'
       - 'Pipfile'
       - 'Pipfile.lock'
-  fork:
-    branches:
-      - 'main'
-    paths:
-      - 'Dockerfile'
-      - 'docker-compose.yml'
-      - '**.py'
-      - 'Pipfile'
-      - 'Pipfile.lock'
   workflow_dispatch:
 
 jobs:

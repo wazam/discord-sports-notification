@@ -17,13 +17,6 @@ on:
       - '**.py'
       - 'Pipfile'
       - 'Pipfile.lock'
-  fork:
-    branches:
-      - 'main'
-    paths:
-      - '**.py'
-      - 'Pipfile'
-      - 'Pipfile.lock'
   workflow_dispatch:
 
 permissions:
