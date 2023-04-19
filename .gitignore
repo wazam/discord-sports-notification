@@ -1,5 +1,5 @@
 .vscode/
 __pycache__/
 .env
-.python-version
+.tool-versions
 *.override.yml
