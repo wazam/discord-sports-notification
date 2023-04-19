@@ -1,71 +1,78 @@
-import discord
-from discord.ext import tasks, commands
 import os
 from os import environ
 from datetime import datetime, timedelta
 import requests
 
-from utils.nba import NBAGamesChecker
-from utils.mlb import MLBGamesChecker
+import discord
+from discord.ext import commands, tasks
+
+from utils.basketball import NBAGamesChecker
+from utils.baseball import MLBGamesChecker
+import utils.weather
+# import utils.music
 # import utils.booty
-from utils import weather
+
 
 command_prefix = environ.get('BOT_PREFIX', '!')
-description = '( ͡° ͜ʖ ͡°) Alan is alive, but I cannot tell you where he is.'
+intents=discord.Intents.all() #.default() ?
+description = 'A Discord bot for sending sports notifications.'
 activity = discord.Activity(type=discord.ActivityType.watching, name=command_prefix + 'help')
-bot = commands.Bot(command_prefix=command_prefix, intents=discord.Intents.all(), description=description, activity=activity, status=discord.Status.online, case_insensitive=True)
-refresh_rate = float(environ.get('BOT_REFRESH', 300))
+status = discord.Status.online
+bot = commands.Bot(command_prefix=command_prefix, intents=intents, description=description, activity=activity, status=status, case_insensitive=True)
+
 NBA_enabled = eval(environ.get('NBA_ENABLED', True))
 MLB_enabled = eval(environ.get('MLB_ENABLED', True))
+refresh_rate = float(environ.get('BOT_REFRESH', 300))
+
 url_user_agent = str('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0')
 
 nba_checker = NBAGamesChecker()
 mlb_checker = MLBGamesChecker()
 
+
 @bot.event
 async def on_ready():
-    print(f'{bot.user.name} is online and ready!', flush=True)
+    timestamp = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    msg = f'{bot.user.name} is online.'
+    log = timestamp + ' INFO     ' + msg
+    print(log, flush=True)
     notify_all_games.start()
 
-@bot.command(aliases=['test'])
-async def ping(ctx):
+
+@bot.command(name='sync')
+async def sync_command(ctx):
+    cmd_list = await ctx.bot.tree.sync()
+    msg = f'Synced {len(cmd_list)} slash command(s) to Discord.'
+    await ctx.send(msg)
+
+
+@bot.hybrid_command(name='ping', description="Testing123")
+async def ping_command(ctx):
     latency = round(bot.latency * 1000)
-    await ctx.send(f'Pong! `{latency}ms`')
-
-@bot.command(aliases=['hi'])
-async def hello(ctx):
-    msg = f'Hi {ctx.author.mention}'
+    msg = f'Pong! `{latency}ms`'
     await ctx.send(msg)
 
-@bot.command(aliases=['findalan'])
-async def whereisalan(ctx):
-    msg = f'{description}'
+@bot.hybrid_command(name='passtheboof', aliases=['420'])
+async def passtheboof_command(ctx):
+    msg = f'<:here:730885279774146611>'
     await ctx.send(msg)
 
-@bot.command()
-async def passtheboof(ctx):
-    msg = f':here:' #fix
-    await ctx.send(msg)
-
-@bot.command(aliases=['petealonso'])
-async def mets(ctx):
+@bot.hybrid_command(name='mets', aliases=['petealonso'])
+async def mets_command(ctx):
     msg = f'http://blabseal.org/coolbeans/'
     await ctx.send(msg)
 
-@bot.command()
-async def whoami(ctx):
-    msg = f'https://github.com/wazam/discord-sports-notification/pkgs/container/discord-sports-notification'
+@bot.hybrid_command(name='time')
+async def time_command(ctx):
+    time_EST = datetime.today().strftime('%Y-%m-%d %H:%M:%S') #- timedelta(hours=4)
+    msg = f'{time_EST}'
     await ctx.send(msg)
 
-@bot.command()
-async def time(ctx):
-    msg = f'{datetime.now() - timedelta(hours=4)}'
+@bot.hybrid_command(name='weather')
+async def weather_command(ctx, *, user_search):
+    msg = utils.weather.lookup(user_search)
     await ctx.send(msg)
 
-@bot.command()
-async def weather(ctx, *, user_search):
-    msg = weather.lookup(user_search)
-    await ctx.send(msg)
 
 @bot.command(aliases=['today'])
 async def games(ctx):
