@@ -1,10 +1,11 @@
 from os import environ
 import requests
 
+
 openweathermap_api_key = environ.get('OPENWEATHERMAP_API_KEY')
 
-def lookup(user_search):
 
+def lookup(user_search):
     # Check for and convert zip/post code to latitude/longitutde
     # https://openweathermap.org/api/geocoding-api#direct_zip_how
     if user_search.isnumeric():
@@ -16,7 +17,7 @@ def lookup(user_search):
                 lat = float(data['lat'])
                 lon = float(data['lon'])
             except KeyError:
-                msg = f'No OpenWeatherMap API Key provided.'
+                msg = 'No OpenWeatherMap API Key provided.'
                 return msg
 
     # Convert location city/area name to latitude/longitutde
@@ -35,19 +36,21 @@ def lookup(user_search):
     data = response.json()
 
     temperature_data = data['main']
-    rounded_temperature = int(round(temperature_data["temp"],0))
-    
+    rounded_temperature = int(round(temperature_data["temp"], 0))
+
     weather_data = data['weather'][0]
     sky_description = weather_data["description"]
-    
+
     location = data["name"]
 
     msg = f'{rounded_temperature}°F with {sky_description} in {location} right now.'
     return msg
 
+
 # Example of second function
 def test():
     return 0
+
 
 # Used for executing directly when testing
 if __name__ == "__main__":
