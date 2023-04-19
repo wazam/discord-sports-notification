@@ -9,7 +9,7 @@ def lookup(user_search):
     # Check for and convert zip/post code to latitude/longitutde
     # https://openweathermap.org/api/geocoding-api#direct_zip_how
     if user_search.isnumeric():
-        if int(float(user_search)) > 0 and int(float(user_search)) < 100000: # Zipcode formatting
+        if int(float(user_search)) > 0 and int(float(user_search)) < 100000:  # Zipcode formatting
             url = f'http://api.openweathermap.org/geo/1.0/zip?zip={user_search}&appid={openweathermap_api_key}'
             response = requests.get(url)
             data = response.json()
