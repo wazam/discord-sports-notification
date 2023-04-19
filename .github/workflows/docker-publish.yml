@@ -1,6 +1,6 @@
 # https://github.com/actions/starter-workflows/blob/main/ci/docker-publish.yml
 
-name: Docker Publish
+name: Build, test and push Docker image to GitHub Packages. 
 
 on:
   schedule:

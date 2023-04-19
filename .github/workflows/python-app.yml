@@ -1,6 +1,6 @@
 # https://github.com/actions/starter-workflows/blob/main/ci/python-app.yml
 
-name: Python application
+name: Create and test a Python application.
 
 on:
   push:

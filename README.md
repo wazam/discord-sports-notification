@@ -2,11 +2,9 @@
 
 A Discord bot for sending sports notifications, made in [Python](https://www.python.org/). A message is sent notifying users in a channel when an almost-completed sports game has a close score between the teams. 98% umpball-free. The last 2% is the hardest to get. That's why they leave it in the milk.
 
-## Installation
 
-### Manual
-
-1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [docker-compose](https://docs.docker.com/compose/install/), and [docker](https://docs.docker.com/engine/install/) if needed.
+## Manual Installation
+1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [docker](https://docs.docker.com/engine/install/), and [docker-compose](https://docs.docker.com/compose/install/).
 2. [Clone](https://git-scm.com/docs/git-clone) the repo.
 ```sh
 git clone https://github.com/wazam/discord-sports-notification.git
@@ -15,28 +13,30 @@ git clone https://github.com/wazam/discord-sports-notification.git
 ```sh
 cd ./discord-sports-notification
 ```
-4. Copy the `.env.example` file and rename it to `.env`.
-5. Add your Discord secret_token and channel_ID from [discord.com](https://discord.com/developers/applications) to the `.env` file.
-6. Enable additional bot settings. ![](docs/additional-discord-bot-settings.jpg)
+4. Add your Discord secret_token and channel_ID from [discord.com](https://discord.com/developers/applications) to the `.env` file.
+5. Modify the variables in your `.env` file if you want to change [these](https://github.com/wazam/discord-sports-notification#environment-variables) default values.
+6. Enable the Discord bot's privileged intents in settings. ![](docs/additional-discord-bot-settings.jpg)
 7. Add the bot to your server.
 7. [Run](https://docs.docker.com/compose/reference/up/) the ```docker-compose.yml``` file to build and run the app.
 ```sh
 docker-compose up -d
 ```
 
-### Docker-compose
+
+## Docker-compose Installation
 ```sh
 ---
 version: "3.9"
 services:
-  bot:
+  discord-sports-notification:
     image: ghcr.io/wazam/discord-sports-notification:main
     environment:
       - DISCORD_SECRET_TOKEN={YOUR_VALUE}
       - DISCORD_CHANNEL_ID={YOUR_VALUE}
 ```
 
-### Docker
+
+## Docker Installation
 ```sh
 docker run -d \
   -e DISCORD_SECRET_TOKEN={YOUR_VALUE} \
@@ -44,31 +44,75 @@ docker run -d \
   ghcr.io/wazam/discord-sports-notification:main
 ```
 
-## Example
 
+## Example Notifications
 ![](docs/example-discord-notifcations.jpg)
 
-## Bot Commands
 
-- ```help``` displays all commands.
-- ```games``` or ```today``` displays amount of games today.
+## Bot Commands
+- ```help``` list of all commands
+- ```games``` or ```today``` amount of sports games today
+- ```weather {zip/post code or city/area name}``` current weather conditions
+- ```booty {theme}``` spicy reddit picture
+
+
+## Environment Variables
+
+### Discord
+- DISCORD_SECRET_TOKEN={YOUR_VALUE}
+  - Discord Bot's Client Secret Token (from Developer Portal).
+  - **Mandatory!**
+- DISCORD_CHANNEL_ID={YOUR_VALUE}
+  - Discord Text Channel ID (right-click, "Copy ID").
+  - **Mandatory!**
+- BOT_REFRESH=300
+  - Set the interval in seconds to scrape game information for notification conditions.
+- BOT_PREFIX="!"
+  - Set the command prefix to be used for the bot, in between the quotation marks.
+  - Slash commands "/" are available by default now for the bot.
+
+### NBA
+- NBA_ENABLED=True
+  - Enable/Disable support for NBA notifications.
+- NBA_PERIOD=4
+  - Set the earliest period that a notification can activate for.
+  - Notification is not sent if period in game is less than this number.
+- NBA_PT_DIFFERENTIAL=5
+  - Set the highest point differential between the teams that a notification can activate for.
+  - Notification is not sent if point differential between teams is higher than this number.
+- NBA_MINS_LEFT=4
+  - Set the last minutes that a notification can activate for.
+  - Notification is not sent if remaining minutes in period is more than this number.
+
+### MLB
+- MLB_ENABLED=True
+  - Enable/Disable support for MLB notifications.
+- MLB_INNING=9
+  - Set the earliest inning that a notification can activate for.
+  - Notification is not sent if inning is less than this number.
+- MLB_RUN_DIFFERENTIAL=1
+  - Set the highest run differential between the teams that a notification can activate for.
+  - Notification is not sent if run differential is higher than this number.
+- MLB_BASERUNNERS="RISP"
+  - Set the minimum amount of baserunners that a notification can activate for.
+  - Notification is not sent until this situation occurs on the bases.
+  - Options: "RISP" for 2nd/3rd, "Men_On" for 1st, "Empty" for no requirement.
+
 
 ## Supported Sports
-
-| League | Available |
-| :----: | :----: |
-| [NBA (National Basketball Association)](https://data.nba.net/10s/prod/v2/today.json) | ✅ |
-| [MLB (Major League Baseball)](http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1) | ✅ |
-| [NFL (National Football League)](http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard) | ❌ |
-| [NHL (National Hockey League)](https://statsapi.web.nhl.com/api/v1/schedule) | ❌ |
-| [NCAA Men's Baseball](https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard) | ❌ |
-| [NCAA Men's Basketball](http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard) | ❌ |
-| [NCAA Football](http://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard) | ❌ |
-| [MLS (Major League Soccer)](http://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard) | ❌ |
-| [EPL (English Premier League)](http://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard) | ❌ |
+| League | Available | Planned |
+| :----: | :----: | :----: |
+| [NBA (National Basketball Association)](https://data.nba.net/10s/prod/v2/today.json) | ✅ |   |
+| [MLB (Major League Baseball)](http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1) | ✅ |   |
+| [NFL (National Football League)](http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard) | ❌ | ✅ |
+| [NHL (National Hockey League)](https://statsapi.web.nhl.com/api/v1/schedule) | ❌ | ✅ |
+| [NCAA Men's Baseball](https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard) | ❌ | ❌ |
+| [NCAA Men's Basketball](http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard) | ❌ | ❌ |
+| [NCAA Football](http://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard) | ❌ | ❌ |
+| [MLS (Major League Soccer)](http://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard) | ❌ | ❌ |
+| [EPL (English Premier League)](http://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard) | ❌ | ❌ |
 
 ## Disclaimers
-
 - [NBA Terms of Use](https://www.nba.com/termsofuse)
 - [MLB Terms of Use](https://www.mlb.com/official-information/terms-of-use)
 - [MLB Copyright](https://gdx.mlb.com/components/copyright.txt)
