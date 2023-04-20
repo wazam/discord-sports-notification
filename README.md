@@ -61,9 +61,9 @@ services:
   - **Mandatory!**
 - BOT_REFRESH=300
   - Set the interval in seconds to scrape game information for notification conditions.
-- BOT_PREFIX='!'
+- BOT_PREFIX=!
   - Set the command prefix to be used for the bot, in between the quotation marks.
-  - Slash commands "/" are available by default now for the bot.
+  - Slash commands are available by default now for the bot.
 
 ### NBA
 - NBA_ENABLED=True
