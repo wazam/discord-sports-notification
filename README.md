@@ -52,20 +52,18 @@ services:
 
 ## Environment Variables
 
-### Discord
+### Mandatory
 - DISCORD_SECRET_TOKEN={{YOUR_VALUE}}
   - Discord Bot's Client Secret Token (from Developer Portal).
-  - **Mandatory!**
 - DISCORD_CHANNEL_ID={{YOUR_VALUE}}
   - Discord Text Channel ID (right-click, "Copy ID").
-  - **Mandatory!**
+
+### Optional
 - BOT_REFRESH=300
   - Set the interval in seconds to scrape game information for notification conditions.
 - BOT_PREFIX=!
   - Set the command prefix to be used for the bot, in between the quotation marks.
   - Slash commands are available by default now for the bot.
-
-### NBA
 - NBA_ENABLED=True
   - Enable/Disable support for NBA notifications.
 - NBA_PERIOD=4
@@ -77,8 +75,6 @@ services:
 - NBA_MINS_LEFT=4
   - Set the last minutes that a notification can activate for.
   - Notification is not sent if remaining minutes in period is more than this number.
-
-### MLB
 - MLB_ENABLED=True
   - Enable/Disable support for MLB notifications.
 - MLB_INNING=9
@@ -91,11 +87,8 @@ services:
   - Set the minimum amount of baserunners that a notification can activate for.
   - Notification is not sent until this situation occurs on the bases.
   - Options: 'RISP' for 2nd/3rd, 'Men_On' for 1st, 'Empty' for no requirement.
-
-### Other
-- OPENWEATHERMAP_API_KEY=
-  - Free [weather API by OpenWeather](https://openweathermap.org/appid) with account registration. Required for the weather command.
-  - Optional.
+- OPENWEATHERMAP_API_KEY={{YOUR_VALUE}}
+  - Free [weather API by OpenWeather](https://openweathermap.org/appid) with account registration. Required for the weather command. 
 - TZ=America/New_York
   - Sets localtime for bot based on prefered [tz name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
