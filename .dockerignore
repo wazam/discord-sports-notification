@@ -4,7 +4,7 @@
 docs/
 __pycache__/
 .dockerignore
-.env.example
+.env
 .gitignore
 .tool-versions
 *.yml
