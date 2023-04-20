@@ -4,7 +4,7 @@ A Discord bot for sending sports notifications, made in [Python](https://www.pyt
 
 ## Installation
 
-### Build from source 
+### Build From Source
 1. Install [git](https://git-scm.com/downloads) and [docker-compose](https://docs.docker.com/compose/install/).
 2. Clone the repo.
 ```sh
@@ -16,15 +16,13 @@ cd ./discord-sports-notification
 ```
 4. Add your Discord bot's [`secret_token`](https://discord.com/developers/applications) and Server's `channel_ID` to the environment section of the `docker-compose.yml` file.
 5. If you want to change [these](https://github.com/wazam/discord-sports-notification#environment-variables) default values, then modify them by adding additional environment variables to the `docker-compose.yml` file.
-6. Enable the Discord bot's privileged intents in settings. ![](docs/additional-discord-bot-settings.jpg)
-7. Add the bot to your server.
-7. [Run](https://docs.docker.com/compose/reference/up/) the ```docker-compose.yml``` file to build and run the app.
+7. Run the `docker-compose.yml` file to build and run the app.
 ```sh
 docker-compose up -d
 ```
 
 
-### Docker-compose
+### Docker-Compose
 ```sh
 ---
 version: "3"
@@ -38,16 +36,21 @@ services:
 ```
 
 
+### Additional Steps
+- Enable the Discord bot's privileged intents in dev portal settings. ![](docs/additional-discord-bot-settings.jpg)
+- Add the bot to your server with the proper permissions.
+
+
 ## Example Notifications
 ![](docs/example-discord-notifcations.jpg)
 
 
 ## Bot Commands
-- ```help``` list of all commands
-- ```games``` or ```today``` amount of sports games today
-- ```baseball``` or ```mlb``` list of mlb games today
-- ```basketball``` or ```nba``` list of nba games today
-- ```weather {zip/post code or city/area name}``` current weather
+- `help` list of all commands
+- `games` or `today` amount of sports games today
+- `baseball` or `mlb` list of mlb games today
+- `basketball` or `nba` list of nba games today
+- `weather` `{{your zip/post code or city/area name}}` current weather conditions
 
 
 ## Environment Variables
