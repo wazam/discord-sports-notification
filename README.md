@@ -26,22 +26,15 @@ docker-compose up -d
 ## Docker-compose Installation
 ```sh
 ---
-version: "3.9"
+version: "3"
 services:
-  discord-sports-notification:
+  app:
     image: ghcr.io/wazam/discord-sports-notification:main
+    container_name: discord-sports-notification
     environment:
       - DISCORD_SECRET_TOKEN={YOUR_VALUE}
       - DISCORD_CHANNEL_ID={YOUR_VALUE}
-```
-
-
-## Docker Installation
-```sh
-docker run -d \
-  -e DISCORD_SECRET_TOKEN={YOUR_VALUE} \
-  -e DISCORD_CHANNEL_ID={YOUR_VALUE} \
-  ghcr.io/wazam/discord-sports-notification:main
+      - TZ=America/New_York
 ```
 
 
@@ -52,8 +45,9 @@ docker run -d \
 ## Bot Commands
 - ```help``` list of all commands
 - ```games``` or ```today``` amount of sports games today
-- ```weather {zip/post code or city/area name}``` current weather conditions
-- ```booty {theme}``` spicy reddit picture
+- ```baseball``` or ```mlb``` list of mlb games today
+- ```basketball``` or ```nba``` list of nba games today
+- ```weather {zip/post code or city/area name}``` current weather
 
 
 ## Environment Variables
@@ -67,7 +61,7 @@ docker run -d \
   - **Mandatory!**
 - BOT_REFRESH=300
   - Set the interval in seconds to scrape game information for notification conditions.
-- BOT_PREFIX="!"
+- BOT_PREFIX='!'
   - Set the command prefix to be used for the bot, in between the quotation marks.
   - Slash commands "/" are available by default now for the bot.
 
@@ -93,10 +87,10 @@ docker run -d \
 - MLB_RUN_DIFFERENTIAL=1
   - Set the highest run differential between the teams that a notification can activate for.
   - Notification is not sent if run differential is higher than this number.
-- MLB_BASERUNNERS="RISP"
+- MLB_BASERUNNERS='RISP'
   - Set the minimum amount of baserunners that a notification can activate for.
   - Notification is not sent until this situation occurs on the bases.
-  - Options: "RISP" for 2nd/3rd, "Men_On" for 1st, "Empty" for no requirement.
+  - Options: 'RISP' for 2nd/3rd, 'Men_On' for 1st, 'Empty' for no requirement.
 
 
 ## Supported Sports
