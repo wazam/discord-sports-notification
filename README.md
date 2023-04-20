@@ -2,10 +2,11 @@
 
 A Discord bot for sending sports notifications, made in [Python](https://www.python.org/). A message is sent notifying users in a channel when an almost-completed sports game has a close score between the teams. 98% umpball-free. The last 2% is the hardest to get. That's why they leave it in the milk.
 
+## Installation
 
-## Build from source Installation
-1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [docker](https://docs.docker.com/engine/install/), and [docker-compose](https://docs.docker.com/compose/install/).
-2. [Clone](https://git-scm.com/docs/git-clone) the repo.
+### Build from source 
+1. Install [git](https://git-scm.com/downloads) and [docker-compose](https://docs.docker.com/compose/install/).
+2. Clone the repo.
 ```sh
 git clone https://github.com/wazam/discord-sports-notification.git
 ```
@@ -13,8 +14,8 @@ git clone https://github.com/wazam/discord-sports-notification.git
 ```sh
 cd ./discord-sports-notification
 ```
-4. Add your Discord secret_token and channel_ID from [discord.com](https://discord.com/developers/applications) to the `.env` file.
-5. Modify the variables in your `.env` file if you want to change [these](https://github.com/wazam/discord-sports-notification#environment-variables) default values.
+4. Add your Discord bot's [`secret_token`](https://discord.com/developers/applications) and Server's `channel_ID` to the environment section of the `docker-compose.yml` file.
+5. If you want to change [these](https://github.com/wazam/discord-sports-notification#environment-variables) default values, then modify them by adding additional environment variables to the `docker-compose.yml` file.
 6. Enable the Discord bot's privileged intents in settings. ![](docs/additional-discord-bot-settings.jpg)
 7. Add the bot to your server.
 7. [Run](https://docs.docker.com/compose/reference/up/) the ```docker-compose.yml``` file to build and run the app.
@@ -23,7 +24,7 @@ docker-compose up -d
 ```
 
 
-## Docker-compose Installation
+### Docker-compose
 ```sh
 ---
 version: "3"
@@ -32,9 +33,8 @@ services:
     image: ghcr.io/wazam/discord-sports-notification:main
     container_name: discord-sports-notification
     environment:
-      - DISCORD_SECRET_TOKEN={YOUR_VALUE}
-      - DISCORD_CHANNEL_ID={YOUR_VALUE}
-      - TZ=America/New_York
+      - DISCORD_SECRET_TOKEN={{YOUR_VALUE}}
+      - DISCORD_CHANNEL_ID={{YOUR_VALUE}}
 ```
 
 
@@ -53,10 +53,10 @@ services:
 ## Environment Variables
 
 ### Discord
-- DISCORD_SECRET_TOKEN={YOUR_VALUE}
+- DISCORD_SECRET_TOKEN={{YOUR_VALUE}}
   - Discord Bot's Client Secret Token (from Developer Portal).
   - **Mandatory!**
-- DISCORD_CHANNEL_ID={YOUR_VALUE}
+- DISCORD_CHANNEL_ID={{YOUR_VALUE}}
   - Discord Text Channel ID (right-click, "Copy ID").
   - **Mandatory!**
 - BOT_REFRESH=300
@@ -92,6 +92,13 @@ services:
   - Notification is not sent until this situation occurs on the bases.
   - Options: 'RISP' for 2nd/3rd, 'Men_On' for 1st, 'Empty' for no requirement.
 
+### Other
+- OPENWEATHERMAP_API_KEY=
+  - Free [weather API by OpenWeather](https://openweathermap.org/appid) with account registration. Required for the weather command.
+  - Optional.
+- TZ=America/New_York
+  - Sets localtime for bot based on prefered [tz name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
 
 ## Supported Sports
 | League | Available | Planned |
@@ -105,6 +112,7 @@ services:
 | [NCAA Football](http://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard) | ❌ | ❌ |
 | [MLS (Major League Soccer)](http://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard) | ❌ | ❌ |
 | [EPL (English Premier League)](http://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard) | ❌ | ❌ |
+
 
 ## Disclaimers
 - [NBA Terms of Use](https://www.nba.com/termsofuse)
