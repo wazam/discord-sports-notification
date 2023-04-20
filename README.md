@@ -3,7 +3,7 @@
 A Discord bot for sending sports notifications, made in [Python](https://www.python.org/). A message is sent notifying users in a channel when an almost-completed sports game has a close score between the teams. 98% umpball-free. The last 2% is the hardest to get. That's why they leave it in the milk.
 
 
-## Manual Installation
+## Build from source Installation
 1. Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [docker](https://docs.docker.com/engine/install/), and [docker-compose](https://docs.docker.com/compose/install/).
 2. [Clone](https://git-scm.com/docs/git-clone) the repo.
 ```sh
