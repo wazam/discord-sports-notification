@@ -1,5 +1,4 @@
 .vscode/
 __pycache__/
 .env
-.tool-versions
 *.override.yml
