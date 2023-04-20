@@ -1,7 +1,10 @@
-version: "3.9"
+version: "3"
 services:
   app:
-    image: discord-sports-notification:main
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: discord-sports-notification
+    environment:
+      - DISCORD_SECRET_TOKEN={{YOUR_VALUE}}
+      - DISCORD_CHANNEL_ID={{YOUR_VALUE}}

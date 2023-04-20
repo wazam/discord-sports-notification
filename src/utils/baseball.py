@@ -14,7 +14,7 @@ class MLBGamesChecker():
             # Set the highest score-difference-between-teams that a notification can activate for, scores-differentials higher than value are ignored
             'MLB_RUN_DIFFERENTIAL': int(environ.get('MLB_RUN_DIFFERENTIAL', 1)),
             # Set the minimum amount of baserunners that a notification can activate for, situations with less man on base than the value are ignored
-            'MLB_BASERUNNERS': environ.get('MLB_BASERUNNERS', "RISP")
+            'MLB_BASERUNNERS': environ.get('MLB_BASERUNNERS', 'RISP')
         }
 
     def update_config(self, config):
