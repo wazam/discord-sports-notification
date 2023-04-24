@@ -41,6 +41,7 @@ jobs:
         cache: 'pipenv'
 
     - name: Install dependencies
+    # python -m pip install pipenv ?
       run: |
         pip install pipenv
         pipenv install --deploy
