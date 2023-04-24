@@ -5,7 +5,7 @@ name: Build a Docker image.
 on:
   push:
     branches:
-      - $default-branch
+      - 'main'
     paths:
       - 'Dockerfile'
       - 'docker-compose.yml'
@@ -15,7 +15,7 @@ on:
       - 'src/**'
   pull_request:
     branches:
-      - $default-branch
+      - 'main'
     paths:
       - 'Dockerfile'
       - 'docker-compose.yml'
