@@ -7,16 +7,16 @@ on:
     branches:
       - 'main'
     paths:
-      - '**.py'
       - 'Pipfile'
       - 'Pipfile.lock'
+      - 'src/**'
   pull_request:
     branches:
       - 'main'
     paths:
-      - '**.py'
       - 'Pipfile'
       - 'Pipfile.lock'
+      - 'src/**'
   workflow_dispatch:
 
 permissions:
@@ -41,6 +41,7 @@ jobs:
         cache: 'pipenv'
 
     - name: Install dependencies
+    # python -m pip install pipenv ?
       run: |
         pip install pipenv
         pipenv install --deploy

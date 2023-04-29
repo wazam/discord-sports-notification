@@ -22,7 +22,7 @@ NBA_enabled = environ.get('NBA_ENABLED', True)
 MLB_enabled = environ.get('MLB_ENABLED', True)
 refresh_rate = float(environ.get('BOT_REFRESH', 300))
 
-url_user_agent = str('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0')
+url_user_agent = str('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0')  #HTTP/1.1 ?
 
 nba_checker = NBAGamesChecker()
 mlb_checker = MLBGamesChecker()
